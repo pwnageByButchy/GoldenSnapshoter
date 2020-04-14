@@ -11,8 +11,6 @@ def main():
     guestpasswd = input()
     determineEnvironment()
     findVMs(vmDirectory, extension)
-
-
-for vm in virtualMachines:
-    guestOS = determineGuestOS(vm)
-    VMWare.snapshotProcess(vm, guestUser, guestPassword, guestOS)
+    for vm in virtualMachines:
+        guestOS = determineGuestOS(vm)
+        VMWare.snapshotProcess(vm, guestUser, guestPassword, guestOS)
