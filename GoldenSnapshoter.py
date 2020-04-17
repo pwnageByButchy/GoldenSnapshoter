@@ -4,6 +4,7 @@ try:
     from configparser import ConfigParser
     from utilities import Utilities
     from vmware import Vmware
+    from updatescripts import Updatescripts
 except ImportError:
     from ConfigParser import ConfigParser  # ver. < 3.0
 
@@ -27,12 +28,20 @@ def main():
     external_git_repos = config['git']['external_git_directories']
     # Initialise Utilities class
     utility = Utilities(vm_directory, extension)
-    vms = utility
-    for vm in vms:
+    utility.found_files
+    # looping through virtual machines and initiate snapshotProcess()
+    for vm in utility.found_files:
         new_vm = Vmware(vm)
         new_vm.vmware_type = vmware_product
         new_vm.base_image = base_image
         new_vm.guest_user = guest_user
         new_vm.guest_password = guest_password
-        new_vm.determineGuestOS()
+        # Insert into here the creation of the update scripts
+        create_update_script = Updatescripts(
+            my_git_directory,
+            external_git_directory,
+            my_git_repos,
+            external_git_repos)
+        new_vm.updatescript = create_update_script
+        # put it in between the above line and this line
         new_vm.snapshotProcess()

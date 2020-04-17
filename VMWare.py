@@ -1,7 +1,3 @@
-self.vm  # File to cover off all the VMWare Components
-# make this a class you wally!!!!
-
-
 class Vmware:
     def __init__(self, filepath):
         self.self.vm = filepath
@@ -10,16 +6,17 @@ class Vmware:
         self.base_image = ""
         self.guest_user = ""
         self.guest_password = ""
+        self.update_script = ""
 
     # Snapshot the VMs, ensure update files exist if not copy them to VM
     def snapshotProcess():
         vmrun - T self.vmware_type revertToSnapshot self.vm self.base_image
         vmrun - T self.vmware_type start self.vm
        if guestOS == "Linux":
-            fileExists = vmrun - T self.vmware_type - gu self.guest_user - gp self.guest_password fileExistsInGuest self.vm / update.sh
+            fileExists = vmrun - T self.vmware_type - gu self.guest_user - gp self.guest_password fileExistsInGuest self.vm / self.update_script
             if fileExists == false:
-                vmrun - T self.vmware_type - gu self.guest_user - gp self.guest_password copyFileFromHostToGuest self.vm ./UpdateScripts/UpdateWithAPT.sh / update.sh
-            vmrun - T self.vmware_type - gu self.guest_user - gp self.guest_password runScriptInGuest self.vm - interactive "" "/bin/bash /update.sh"
+                vmrun - T self.vmware_type - gu self.guest_user - gp self.guest_password copyFileFromHostToGuest self.vm ./UpdateScripts/UpdateWithAPT.sh / self.update_script
+            vmrun - T self.vmware_type - gu self.guest_user - gp self.guest_password runScriptInGuest self.vm - interactive "" "/bin/bash /" + self.update_script
         elif guestOS == "Windows":
             fileExists = vmrun - T self.vmware_type -gu self.guest_user -gp self.guest_password fileExistsInGuest self.vm /update.ps1
             if fileExists == false:
