@@ -5,7 +5,7 @@ class Utilities:
     def __init__(self, directory, ext):
         self.vmDirectory = directory
         self.extension = ext
-        self.found_files = []
+        self.found_files = self.find_files_by_extension()
 
     # Simply loop through directory looking for VMs
     def find_files_by_extension():
