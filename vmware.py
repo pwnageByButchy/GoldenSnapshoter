@@ -7,6 +7,7 @@ class Vmware:
         self.guest_user = ""
         self.guest_password = ""
         self.update_script = ""
+        # comment
 
     # Snapshot the VMs, ensure update files exist if not copy them to VM
     def snapshotProcess():
