@@ -8,9 +8,9 @@ def main():
     virtualMachines = []
     vmWareType = ""
     guestUser = input()
-    guestpasswd = input()
+    guestPassword = input()
     determineEnvironment()
     findVMs(vmDirectory, extension)
     for vm in virtualMachines:
         guestOS = determineGuestOS(vm)
-        VMWare.snapshotProcess(vm, guestUser, guestPassword, guestOS)
+        snapshotProcess(vm, guestUser, guestPassword, guestOS, vmWareType)

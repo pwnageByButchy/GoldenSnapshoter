@@ -1,14 +1,9 @@
 # File to cover off all the VMWare Components
-import os
-
-
-vmDirectory = 'I:/Virtual Machines'
-extension = '.vmx'
-baseImageName = 'baseImage'
+# make this a class you wally!!!!
 
 
 # Snapshot the VMs, ensure update files exist if not copy them to VM
-def snapshotProcess(vm, guestUser, guestPassword, guestOS):
+def snapshotProcess(vm, guestUser, guestPassword, guestOS, vmWareType):
     vmrun - T vmWareType revertToSnapshot vm baseImageName
     vmrun - T vmWareType start vm
    if guestOS == "Linux":
@@ -41,11 +36,3 @@ def determineGuestOS(vm):
                 else:
                     result = "Linux"
                     return result
-
-
-# Simply loop through directory looking for VM xml files needed to identify VMs for Snapshotting
-def findVMs(vmDirectory, extension):
-    for root, dirs, files in os.walk(vmDirectory):
-        for file in files:
-            if file.endswith(extension):
-                virtualMachines.append(os.path.join(root, file))
