@@ -12,22 +12,22 @@ class Vmware:
     def snapshotProcess():
         vmrun - T self.vmware_type revertToSnapshot self.vm self.base_image
         vmrun - T self.vmware_type start self.vm
-       if guestOS == "Linux":
+        if self.guest_os == "Linux":
             fileExists = vmrun - T self.vmware_type - gu self.guest_user - gp self.guest_password fileExistsInGuest self.vm / self.update_script
             if fileExists == false:
-                vmrun - T self.vmware_type - gu self.guest_user - gp self.guest_password copyFileFromHostToGuest self.vm ./UpdateScripts/UpdateWithAPT.sh / self.update_script
+                vmrun - T self.vmware_type - gu self.guest_user - gp self.guest_password copyFileFromHostToGuest self.vm ./UpdateScripts/self.update_script / self.update_script
             vmrun - T self.vmware_type - gu self.guest_user - gp self.guest_password runScriptInGuest self.vm - interactive "" "/bin/bash /" + self.update_script
-        elif guestOS == "Windows":
-            fileExists = vmrun - T self.vmware_type -gu self.guest_user -gp self.guest_password fileExistsInGuest self.vm /update.ps1
+        elif self.guest_os == "Windows":
+            fileExists = vmrun - T self.vmware_type - gu self.guest_user - gp self.guest_password fileExistsInGuest self.vm / self.update_script
             if fileExists == false:
-                vmrun - T self.vmware_type -gu self.guest_user -gp self.guest_password copyFileFromHostToGuest self.vm ./UpdateScripts/UpdateWithPS.ps1 C:\update.ps1
-            vmrun - T self.vmware_type -gu self.guest_user -gp self.guest_password runScriptInGuest self.vm -interactive "" "cmd.exe C:\update.ps1"
+                vmrun - T self.vmware_type - gu self.guest_user - gp self.guest_password copyFileFromHostToGuest self.vm ./UpdateScripts/self.update_script "C:\\" + self.update_script
+            vmrun - T self.vmware_type - gu self.guest_user - gp self.guest_password runScriptInGuest self.vm - interactive "" "cmd.exe C:\\" + self.update_script
         else:
             print("Unknown Guest OS, please set Guest OS Identifier")
         vmrun - T self.vmware_type snapshot self.vm self.base_image
 
-
-    # determine the OS of the Virtual Guest, needed for Update file ie. bash file for *nix and powershell for windows
+    # determine the OS of the Virtual Guest, needed for Update file
+    # ie. bash file for *nix and powershell for windows
     def determineGuestOS():
         with open(self.vm) as search:
             for line in search:
@@ -38,4 +38,4 @@ class Vmware:
                     if "win" in line[1]:
                         self.guest_os = "Windows"
                     else:
-                        self.guest_os  = "Linux"
+                        self.guest_os = "Linux"
