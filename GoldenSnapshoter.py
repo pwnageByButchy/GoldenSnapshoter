@@ -37,11 +37,7 @@ def main():
         new_vm.guest_user = guest_user
         new_vm.guest_password = guest_password
         # Insert into here the creation of the update scripts
-        create_update_script = Updatescripts(
-            my_git_directory,
-            external_git_directory,
-            my_git_repos,
-            external_git_repos)
+        create_update_script = Updatescripts(my_git_directory, external_git_directory, my_git_repos, external_git_repos)
         new_vm.updatescript = create_update_script
         # put it in between the above line and this line
         new_vm.snapshotProcess()
