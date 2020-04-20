@@ -8,10 +8,10 @@ print("Starting...")
 def main():
     print("\n")
     print("Attempting to load settings...")
-    # instantiate
+
     config = ConfigParser()
-    # parse existing file
     config.read('settings.ini')
+
     # VMWare settings
     vmware_product = config['virtualisation']['vmware_product']
     vm_directory = config.get('virtualisation', 'vm_directory')
@@ -19,11 +19,13 @@ def main():
     base_image = config['virtualisation']['base_image']
     guest_user = config['virtualisation']['user']
     guest_password = config['virtualisation']['pass']
+
     # Git Repo settings
     my_git_directory = config['git']['my_git_directory']
     external_git_directory = config['git']['external_git_directory']
     my_git_repos = config['my_git_directories']
     external_git_repos = config['external_git_directories']
+
     print("...Settings Loaded")
     print("\n")
     print("Searching for VMs...")
@@ -32,6 +34,7 @@ def main():
     utility.found_files
     print("...VMs found ", len(utility.found_files))
     print("\n")
+
     print("Beginning Snapshot Process")
     # looping through virtual machines and initiate snapshotProcess()
     for vm in utility.found_files:
