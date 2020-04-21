@@ -19,10 +19,10 @@ def main():
     guest_password = my_settings.guestpass
 
     # Git Repo settings
-    # my_git_directory = my_settings.my_git_directory
-    # external_git_directory = my_settings.external_git_directory
-    # my_git_repos = my_settings.my_git_directories
-    # external_git_repos = my_settings.external_git_directories
+    my_git_directory = my_settings.my_git_directory
+    external_git_directory = my_settings.external_git_directory
+    my_git_repos = my_settings.my_git_repos
+    external_git_repos = my_settings.external_git_repos
 
     print("...Settings Loaded")
     print("\n")
@@ -44,10 +44,11 @@ def main():
         new_vm.guest_user = guest_user
         new_vm.guest_password = guest_password
         # Insert into here the creation of the update scripts
-        # print("...Creating Update Script...")
+        print("...Creating Update Script...")
         # create_update_script = Updatescripts(my_git_directory, external_git_directory, my_git_repos, external_git_repos)
         # new_vm.updatescript = create_update_script
         # put it in between the above line and this line
+        print("\n")
         print("...Snapshotting VM...")
         new_vm.snapshotProcess(new_vm)
         print("...Snapshot Completed...")

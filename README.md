@@ -18,7 +18,7 @@ WARNING!!! This removes any unwanted (or possiblely wanted) data from the VM, be
 a folder structure example: \VirtualMachines\Clients\Windows10 or C:\VirtualMachines\Clients\Windows10
 ![VirtualMachines Folder Structure](assets/images/VirtualMachines.png "VirtualMachines Folders")
 
-If you dont want all of your VMs snapshotted put them in a good folder structure. I usually only want to snapshot my "Clients" but not my CTFs.<br />
+If you dont want all of your VMs snapshotted put them in a good folder structure. I usually only want to snapshot my "Clients" but not my CTFs. So I would do C:\VirtualMachines\Clients<br />
 
 #### Create Your VM(s) ####
 (Remember there are ways to script an initial build of a VM... go have a look)
