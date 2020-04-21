@@ -29,4 +29,4 @@ If you dont want all of your VMs snapshotted put them in a good folder structure
 
 ### Usage ###
 1. Configure all the variables in settings.py to match your environment
-2. Open powershell and run python ./GoldenSnapshoter.py
+2. python ./GoldenSnapshoter.py
