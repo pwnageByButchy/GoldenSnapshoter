@@ -1,6 +1,6 @@
-from configparser import ConfigParser
 from utilities import Utilities
 from vmware import Vmware
+from settings import Settings
 from updatescripts import Updatescripts
 print("Starting...")
 
@@ -9,22 +9,20 @@ def main():
     print("\n")
     print("Attempting to load settings...")
 
-    config = ConfigParser()
-    config.read('settings.ini')
-
+    my_settings = Settings()
     # VMWare settings
-    vmware_product = config['virtualisation']['vmware_product']
-    vm_directory = config.get('virtualisation', 'vm_directory')
-    extension = config['virtualisation']['extension']
-    base_image = config['virtualisation']['base_image']
-    guest_user = config['virtualisation']['user']
-    guest_password = config['virtualisation']['pass']
+    vmware_product = my_settings.vmware_product
+    vm_directory = my_settings.vm_directory
+    extension = my_settings.extension
+    base_image = my_settings.base_image
+    guest_user = my_settings.user
+    guest_password = my_settings.guestpass
 
     # Git Repo settings
-    my_git_directory = config['git']['my_git_directory']
-    external_git_directory = config['git']['external_git_directory']
-    my_git_repos = config['my_git_directories']
-    external_git_repos = config['external_git_directories']
+    # my_git_directory = my_settings.my_git_directory
+    # external_git_directory = my_settings.external_git_directory
+    # my_git_repos = my_settings.my_git_directories
+    # external_git_repos = my_settings.external_git_directories
 
     print("...Settings Loaded")
     print("\n")
@@ -50,9 +48,9 @@ def main():
         # create_update_script = Updatescripts(my_git_directory, external_git_directory, my_git_repos, external_git_repos)
         # new_vm.updatescript = create_update_script
         # put it in between the above line and this line
-        print("Snapshotting VM...")
+        print("...Snapshotting VM...")
         new_vm.snapshotProcess(new_vm)
-        print("Snapshot Completed...")
+        print("...Snapshot Completed...")
         print("\n")
 
 

@@ -1,5 +1,6 @@
 import os
 import time
+import datetime
 
 
 class Vmware:
@@ -17,11 +18,16 @@ class Vmware:
     @staticmethod
     def snapshotProcess(self):
         # snapshot machine
-        print("...Reverting to Base Image")
+        print("......Reverting to Base Image")
         revert_machine = 'vmrun -T {0} revertToSnapshot {1} {2}'.format(self.vmware_type, self.vm, self.base_image)
         os.system(revert_machine)
+        print("......Renaming current base image")
+        snapshot_machine = 'vmrun -T {0} snapshot {1} {2}-pre-{3}'.format(
+            self.vmware_type, self.vm, self.base_image, datetime.datetime.now())
+        os.system(snapshot_machine)
+
         # start machine up
-        print("...Starting reverted VM")
+        print("......Starting reverted VM")
         start_machine = 'vmrun -T {0} start {1}'.format(self.vmware_type, self.vm)
         os.system(start_machine)
         # give it enough time to boot
@@ -29,16 +35,16 @@ class Vmware:
         # run script in guest... can you run a local script in the vm... if so this is simpler
         # put runScript command here
         # shutdown the newly updated VM
-        print("...Shutting down VM")
+        print("......Shutting down VM")
         stop_machine = 'vmrun -T {0} stop {1}'.format(self.vmware_type, self.vm)
         os.system(stop_machine)
         time.sleep(20)
         # after process snapshot to make a new base_image
-        print("...Deleting old snapshot")
+        print("......Deleting old snapshot")
         snapshot_delete = 'vmrun -T {0} deleteSnapshot {1} {2}'.format(self.vmware_type, self.vm, self.base_image)
         os.system(snapshot_delete)
 
-        print("...Creating new Base Image")
+        print("......Creating new Base Image")
         snapshot_machine = 'vmrun -T {0} snapshot {1} {2}'.format(self.vmware_type, self.vm, self.base_image)
         os.system(snapshot_machine)
 

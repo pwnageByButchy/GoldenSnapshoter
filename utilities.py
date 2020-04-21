@@ -12,10 +12,8 @@ class Utilities:
     def find_files_by_extension(self):
         # create a list of file and sub directories
         # names in the given directory
-        vm_files = []
-        print(self.extension)
         print(self.vmDirectory)
-
+        vm_files = []
         for root, dirs, files in os.walk(self.vmDirectory):
             for file in files:
                 if file.endswith(self.extension):
