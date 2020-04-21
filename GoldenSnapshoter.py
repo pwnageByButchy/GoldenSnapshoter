@@ -30,7 +30,7 @@ def main():
     # Initialise Utilities class
     utility = Utilities(vm_directory, extension)
     utility.found_files
-    print("...VMs found ", len(utility.found_files))
+    print("...VMs found {0}", len(utility.found_files))
     print("\n")
 
     print("Beginning Snapshot Process")
