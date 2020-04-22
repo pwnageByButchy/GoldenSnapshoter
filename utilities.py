@@ -1,3 +1,4 @@
+import sys
 import os
 
 
@@ -19,3 +20,16 @@ class Utilities:
                     vm_files.append(os.path.join(root, file))
 
         return vm_files
+
+    @staticmethod
+    def find_if_file_exists(file):
+        pathname = os.path.dirname(sys.argv[0])
+        app_path = os.path.abspath(pathname)
+        fullpath = str(bytes(file, 'utf-8'))
+        fullpath = fullpath.replace("'", "")
+        parts = fullpath.split(r'\\')
+        count = len(parts)
+        file = parts[count-1]
+        file = file[:-4] + ".sh"
+        file = app_path + '\\UpdateScripts\\' + file
+        return os.path.isfile(file)

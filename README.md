@@ -25,7 +25,7 @@ If you dont want all of your VMs snapshotted put them in a good folder structure
 1. Create your VM - Download and Create your Guest VM with the OS of your choice
 2. Install any additional items you want included in your Image - Favourite Browser, Additional Tools, Password Manager, Git Repos
 3. Configure your VM
-4. Shutdown your VM and Create a snapshot called "BaseImage" (or what you will be calling your base image...be consistent with the name for all the VMs you want to snapshot)
+4. Shutdown your VM
 
 ### Usage ###
 1. Configure all the variables in settings.py to match your environment
