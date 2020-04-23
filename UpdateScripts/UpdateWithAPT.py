@@ -1,9 +1,50 @@
+
 import os
+import subprocess
+
+
 # Put your code between here
 
 # and here
-# os.system('apt-get update -y && apt-get upgrade -y')
-# os.system('apt-get autoclean -y && apt-get clean -y')
-# os.system('apt-get autoremove -y') 
-# wait $!
-os.system(' echo "Shutdown Required" > /root/test')
+
+
+get_guest_os = 'cat /etc/*release | grep ^"NAME=" | cut -d "=" -f2 | tr \'"\' \' \'| cut -d " " -f2'
+result = subprocess.check_output(get_guest_os, shell=True)
+
+
+def switch(value):
+    return {
+        "Kali": 1,
+        "Ubuntu": 1,
+        "Parrot": 1,
+        "RHEL": 2,
+        "CentOS": 2,
+        "Fedora": 2,
+        "Arch": 3,
+        "blackarch": 3,
+    }.get(value, 42)
+
+
+def apt_update():
+    os.system('apt-get update -y && apt-get upgrade -y')
+    os.system('apt-get autoclean -y && apt-get clean -y')
+    os.system('apt-get autoremove -y')
+    os.system('poweroff')
+
+
+def yum_update():
+    print('Yum Update')
+
+
+def pacman_update():
+    print('Pacman Update')
+
+
+if switch(result) == 1:
+    apt_update()
+elif switch(result) == 2:
+    yum_update()
+elif switch(result) == 3:
+    pacman_update()
+else:
+    print("Unable to update system")
