@@ -66,11 +66,11 @@ class Vmware:
         os.system(copy_script_to_vm)
         print("......Copying Completed")
         print("......Running Script in VM")
-        convert_dos2unix = 'vmrun -gu {0} -gp {1} -T {2} runScriptInGuest {3} "/usr/bin/dos2unix" /root/UpdateScript.py'.format(
-            self.guest_user, self.guest_password, self.vmware_type, self.vm, self.update_script)
+        convert_dos2unix = 'vmrun -gu {0} -gp {1} -T {2} runProgramInGuest {3} "/usr/bin/dos2unix" /root/UpdateScript.py'.format(
+            self.guest_user, self.guest_password, self.vmware_type, self.vm)
         os.system(convert_dos2unix)
-        run_script = 'vmrun -gu {0} -gp {1} -T {2} runScriptInGuest {3} "/bin/bash" /root/UpdateScript.py'.format(
-            self.guest_user, self.guest_password, self.vmware_type, self.vm, self.update_script)
+        run_script = 'vmrun -gu {0} -gp {1} -T {2} runProgramInGuest {3} "/usr/bin/python3" /root/UpdateScript.py'.format(
+            self.guest_user, self.guest_password, self.vmware_type, self.vm)
         os.system(run_script)
         print("......Script Completed")
         print("......Stoping VM")
