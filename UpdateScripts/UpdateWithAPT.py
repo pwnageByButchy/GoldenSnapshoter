@@ -10,6 +10,8 @@ import subprocess
 
 get_guest_os = 'cat /etc/*release | grep ^"NAME=" | cut -d "=" -f2 | tr \'"\' \' \'| cut -d " " -f2'
 result = subprocess.check_output(get_guest_os, shell=True)
+result = result.replace("b'", "")
+result = result.replace("\\n'", "")
 
 
 def switch(value):
@@ -33,11 +35,16 @@ def apt_update():
 
 
 def yum_update():
-    print('Yum Update')
+    os.system('yum check-update && yum -y update')
+    os.system('yum -y autoremove')
+    os.system('poweroff')
 
 
 def pacman_update():
-    print('Pacman Update')
+    # Make sure the network interface is up
+    os.system('systemctl restart NetworkManager')
+    os.system('pacman -Syu --noconfirm')
+    os.system('poweroff')
 
 
 if switch(result) == 1:
