@@ -23,9 +23,10 @@ If you dont want all of your VMs snapshotted put them in a good folder structure
 #### Create Your VM(s) ####
 (Remember there are ways to script an initial build of a VM... go have a look)
 1. Create your VM - Download and Create your Guest VM with the OS of your choice
-2. Install any additional items you want included in your Image - Favourite Browser, Additional Tools, Password Manager, Git Repos
-3. Configure your VM
-4. Shutdown your VM
+2. Install python3 and VMWare tools
+3. Install any additional items you want included in your Image - Favourite Browser, Additional Tools, Password Manager, Git Repos
+4. Configure your VM
+5. Shutdown your VM
 
 ### Usage ###
 1. Configure all the variables in settings.py to match your environment
