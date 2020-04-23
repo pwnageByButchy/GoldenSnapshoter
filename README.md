@@ -30,4 +30,5 @@ If you dont want all of your VMs snapshotted put them in a good folder structure
 
 ### Usage ###
 1. Configure all the variables in settings.py to match your environment
+    (pay particular attention to the preserve_for_forensic_evidence setting(s))
 2. python ./GoldenSnapshoter.py
