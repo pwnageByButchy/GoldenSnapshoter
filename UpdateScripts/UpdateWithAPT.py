@@ -21,14 +21,15 @@ def switch(value):
         yum_update()
     elif value in pacman:
         pacman_update()
+    elif value in parrot:
+        parrot_update()
     else:
         print("This value is not accounted for " + value)
         print("Unable to update system")
- 
 
 
 def apt_update():
-    os.system('apt-get update -y && apt-get upgrade -y')
+    os.system('apt-get update -y && apt-get upgrade --fix-missing -y')
     os.system('apt-get autoclean -y && apt-get clean -y')
     os.system('apt-get autoremove -y')
     time.sleep(10)
@@ -49,10 +50,18 @@ def pacman_update():
     time.sleep(10)
     os.system('poweroff')
 
-apt = ["Kali", "Ubuntu", "Parrot", "Debian"]
+
+def parrot_update():
+    os.system('apt-get update -y && parrot-upgrade --force-confold')
+    os.system('apt-get autoclean -y && apt-get clean -y')
+    os.system('apt-get autoremove -y')
+    time.sleep(10)
+    os.system('poweroff')
+
+
+apt = ["Kali", "Ubuntu", "Debian"]
 yum = ["RHEL", "CentOS", "Fedora"]
 pacman = ["blackarch", "arch"]
-
+parrot = ["Parrot"]
 
 switch(result)
-

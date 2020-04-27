@@ -75,7 +75,7 @@ class Vmware:
         print("......Script Completed")
         print("......Stoping VM")
         while self.is_machine_running():
-            time.sleep(3)
+            time.sleep(60)
         # after process snapshot to make a new base_image
         print("......Deleting old " + self.base_image)
         snapshot_delete = 'vmrun -T {0} deleteSnapshot {1} {2}'.format(self.vmware_type, self.vm, self.base_image)
