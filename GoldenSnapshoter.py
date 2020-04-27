@@ -7,9 +7,7 @@ print("Starting...")
 def main():
     print("\n")
     print("Attempting to load settings...")
-
     my_settings = Settings()
-
     print("...Settings Loaded")
     print("\n")
     print("Searching for VMs...")

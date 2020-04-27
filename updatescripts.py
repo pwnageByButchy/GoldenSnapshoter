@@ -23,7 +23,7 @@ class Updatescripts:
         count = len(parts)
         file = parts[count-1]
         file = file[:-4] + ".py"
-        source_file = app_path + '\\UpdateScripts\\' + "UpdateWithAPT.py"
+        source_file = app_path + '\\UpdateScripts\\' + "UpdateLinux.py"
         destination_file = app_path + '\\UpdateScripts\\' + file
         subprocess.check_output('copy ' + source_file + ' ' + destination_file, shell=True, universal_newlines=True)
         return app_path + '\\UpdateScripts\\' + file
