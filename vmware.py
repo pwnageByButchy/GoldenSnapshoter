@@ -11,42 +11,51 @@ class Vmware:
     def __init__(self, filepath):
         self.my_settings = Settings()
         self.vm = filepath
-        self.guest_os = self.determineGuestOS(self)
+        self.guest_os = self.determineGuestOS()
         self.vmware_type = self.my_settings.vmware_product
         self.base_image = self.my_settings.base_image
-        self.guest_user = self.my_settings.user
-        self.guest_password = self.my_settings.guestpass
+        # GuestOS If/Else statement around...
+        if self.guest_os == "Windows":
+            self.guest_user = self.my_settings.windows_guestuser
+            self.guest_password = self.my_settings.windows_guestpass
+            self.guest_script_path = self.my_settings.windows_scripts_path_in_guest
+        else:
+            self.guest_user = self.my_settings.linux_guestuser
+            self.guest_password = self.my_settings.linux_guestpass
+            self.guest_script_path = self.my_settings.linux_scripts_path_in_guest
+
+        # IF/Else statement this!!!
         self.update_script = ""
         # comment
 
     # Snapshot the VMs, ensure update files exist if not copy them to VM
-    @staticmethod
     def snapshotProcess(self):
-        if self.baseImageExists(self):
+        if self.baseImageExists():
             if self.my_settings.preserve_for_forensic_evidence:
                 client_name = input("......Enter Client's name for Forensic Preservation:")
-                client_name = client_name + "-" + datetime.datetime.now()
-                self.vm_snapshot(self, client_name)
-                # should add clone from snapshot here, then zip cloned VM
-
-            self.vm_revert(self)
-            previous_snapshot = self.base_image + "-pre-" + datetime.datetime.now()
-            self.vm_snapshot(self, previous_snapshot)
+                client_name = client_name + "-" + datetime.datetime.now().strftime("%d-%m-%Y")
+                self.vm_snapshot(client_name)
+                do_i_clone = input("......Do I Clone this Snapshot? [N/y]:")
+                if do_i_clone == 'y':
+                    self.vm_create_clone(client_name)
+            self.vm_revert()
+            previous_snapshot = self.base_image + "-pre-" + datetime.datetime.now().strftime("%d-%m-%Y")
+            self.vm_snapshot(previous_snapshot)
         else:
             # creating initial baseImage as it currently doesnt exist
             print("......A Base Image with the provided name " + self.base_image + " does not exist...So I am creating it!")
-            self.vm_snapshot(self, self.base_image)
+            self.vm_snapshot(self.base_image)
 
         # start machine up
-        self.vm_start(self)
+        self.vm_start()
         # copying and running scripts on guest
-        self.vm_run_scripts(self)
+        self.vm_run_scripts()
         print("......Stoping VM")
         while self.is_machine_running():
-            time.sleep(60)
+            time.sleep(40)
         # after process snapshot to make a new baseImage need to remove the old one first to prevent errors
-        self.vm_delete_snapshot(self)
-        self.vm_snapshot(self, self.base_image)
+        self.vm_delete_snapshot()
+        self.vm_snapshot(self.base_image)
 
     def vm_revert(self):
         print("......Reverting to Base Image")
@@ -62,7 +71,7 @@ class Vmware:
         time.sleep(20)
 
     def vm_snapshot(self, imageName):
-        print("......Creating new " + self.base_image)
+        print("......Creating new " + imageName)
         snapshot_machine = 'vmrun -T {0} snapshot {1} {2}'.format(self.vmware_type, self.vm, imageName)
         os.system(snapshot_machine)
 
@@ -83,22 +92,30 @@ class Vmware:
             self.update_script = update_script.generate_update_script()
             print("......Script Created")
         print("......Copying Script to VM")
-        copy_script_to_vm = 'vmrun -gu {0} -gp {1} -T {2} CopyFileFromHostToGuest {3} {4} /root/UpdateScript.py'.format(
-            self.guest_user, self.guest_password, self.vmware_type, self.vm, self.update_script)
+        # if/else statement here for is GuestOS Linux based of Windows
+        copy_script_to_vm = 'vmrun -gu {0} -gp {1} -T {2} CopyFileFromHostToGuest {3} {4} {5}/UpdateScript.py'.format(
+            self.guest_user, self.guest_password, self.vmware_type, self.vm, self.update_script, self.guest_script_path)
         os.system(copy_script_to_vm)
         print("......Copying Completed")
         print("......Running Script in VM")
-        convert_dos2unix = 'vmrun -gu {0} -gp {1} -T {2} runProgramInGuest {3} "/usr/bin/dos2unix" /root/UpdateScript.py'.format(
-            self.guest_user, self.guest_password, self.vmware_type, self.vm)
+        # file seems to be copied over with windows end of line chars
+        convert_dos2unix = 'vmrun -gu {0} -gp {1} -T {2} runProgramInGuest {3} "/usr/bin/dos2unix" {4}/UpdateScript.py'.format(
+            self.guest_user, self.guest_password, self.vmware_type, self.vm, self.guest_script_path)
         os.system(convert_dos2unix)
-        run_script = 'vmrun -gu {0} -gp {1} -T {2} runProgramInGuest {3} "/usr/bin/python3" /root/UpdateScript.py'.format(
-            self.guest_user, self.guest_password, self.vmware_type, self.vm)
+        run_script = 'vmrun -gu {0} -gp {1} -T {2} runProgramInGuest {3} "/usr/bin/python3" {4}/UpdateScript.py'.format(
+            self.guest_user, self.guest_password, self.vmware_type, self.vm, self.guest_script_path)
         os.system(run_script)
+        # end if/else statement here
         print("......Script Completed")
+
+    def vm_create_clone(self, imageName):
+        print("......Creating Clone of " + imageName)
+        clone_machine = r'vmrun -T {0} clone {1} {2}\{3}\{3}.vmx full -snapshot={3} -cloneName={3}'.format(
+            self.vmware_type, self.vm, self.my_settings.preserve_forensic_clone_directory, imageName)
+        os.system(clone_machine)
 
     # determine the OS of the Virtual Guest, needed for Update file
     # ie. bash file for *nix and powershell for windows
-    @staticmethod
     def determineGuestOS(self):
         with open(self.vm) as search:
             for line in search:
@@ -111,7 +128,6 @@ class Vmware:
                     else:
                         self.guest_os = "Linux"
 
-    @staticmethod
     def baseImageExists(self):
         baseImage = bytes(self.base_image, 'utf-8')
         find_snapshot = r'vmrun -T {0} listSnapshots {1}'.format(self.vmware_type, self.vm)
@@ -119,8 +135,7 @@ class Vmware:
         if result.find(baseImage) != -1:
             return True
 
-    @staticmethod
-    def is_machine_running():
+    def is_machine_running(self):
         is_machine_running = r'vmrun list'
         result = subprocess.check_output(is_machine_running, shell=True)
         if result.find(bytes('Total running VMs: 1', 'utf-8')) != -1:

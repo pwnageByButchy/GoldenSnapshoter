@@ -24,7 +24,7 @@ def main():
         new_vm = Vmware(vm)
         print("\n")
         print("...Snapshotting VM...")
-        new_vm.snapshotProcess(new_vm)
+        new_vm.snapshotProcess()
         print("...Snapshot Completed...")
         print("\n")
 
