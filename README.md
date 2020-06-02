@@ -3,9 +3,9 @@ A Python3 script to create and maintain a “Golden Image” of VMs in VMWare Wo
 
 This saves deleting the VM, downloading the VM and then updating it, download all the Git repos, download your git repos everytime time you mess up a VM or in the case of Pentesters when you start work on a new job start fresh but updated!
 
-With GoldenSnapshoter your VMs, is reset to your current golden image, the guest OS is updated, your's and third party Git repos are updated/downloaded and then that is saved as your new "Golden Image".
+With GoldenSnapshoter your VMs, is reset to your current golden image, the guest OS is updated, your's and third party Git repos are downloaded and then that is saved as your new "Golden Image".
 
-WARNING!!! This removes any unwanted (or possiblely wanted) data from the VM, be sure to move any wanted data off the VM prior to running the Script WARNING!!!
+WARNING!!! This removes any unwanted (or possiblely wanted) data from the VM, be sure to move any wanted data off the VM, or commit any local changes in your Git repos prior to running the Script WARNING!!!
 
 ### The Initial Setup ###
 #### Physical Host Configuration ####

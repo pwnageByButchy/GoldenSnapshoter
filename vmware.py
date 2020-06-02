@@ -59,25 +59,25 @@ class Vmware:
 
     def vm_revert(self):
         print("......Reverting to Base Image")
-        revert_machine = 'vmrun -T {0} revertToSnapshot {1} {2}'.format(self.vmware_type, self.vm, self.base_image)
+        revert_machine = 'vmrun -T {0} revertToSnapshot "{1}" {2}'.format(self.vmware_type, self.vm, self.base_image)
         os.system(revert_machine)
         print("......Renaming current base image")
 
     def vm_start(self):
         print("......Starting VM")
-        start_machine = 'vmrun -T {0} start {1}'.format(self.vmware_type, self.vm)
+        start_machine = 'vmrun -T {0} start "{1}"'.format(self.vmware_type, self.vm)
         os.system(start_machine)
         # give it enough time to boot
         time.sleep(20)
 
     def vm_snapshot(self, imageName):
         print("......Creating new " + imageName)
-        snapshot_machine = 'vmrun -T {0} snapshot {1} {2}'.format(self.vmware_type, self.vm, imageName)
+        snapshot_machine = 'vmrun -T {0} snapshot "{1}" {2}'.format(self.vmware_type, self.vm, imageName)
         os.system(snapshot_machine)
 
     def vm_delete_snapshot(self):
         print("......Deleting old " + self.base_image)
-        snapshot_delete = 'vmrun -T {0} deleteSnapshot {1} {2}'.format(self.vmware_type, self.vm, self.base_image)
+        snapshot_delete = 'vmrun -T {0} deleteSnapshot "{1}" {2}'.format(self.vmware_type, self.vm, self.base_image)
         os.system(snapshot_delete)
 
     def vm_run_scripts(self):
@@ -93,16 +93,16 @@ class Vmware:
             print("......Script Created")
         print("......Copying Script to VM")
         # if/else statement here for is GuestOS Linux based of Windows
-        copy_script_to_vm = 'vmrun -gu {0} -gp {1} -T {2} CopyFileFromHostToGuest {3} {4} {5}/UpdateScript.py'.format(
+        copy_script_to_vm = 'vmrun -gu {0} -gp {1} -T {2} CopyFileFromHostToGuest "{3}" {4} {5}/UpdateScript.py'.format(
             self.guest_user, self.guest_password, self.vmware_type, self.vm, self.update_script, self.guest_script_path)
         os.system(copy_script_to_vm)
         print("......Copying Completed")
         print("......Running Script in VM")
         # file seems to be copied over with windows end of line chars
-        convert_dos2unix = 'vmrun -gu {0} -gp {1} -T {2} runProgramInGuest {3} "/usr/bin/dos2unix" {4}/UpdateScript.py'.format(
+        convert_dos2unix = 'vmrun -gu {0} -gp {1} -T {2} runProgramInGuest "{3}" "/usr/bin/dos2unix" {4}/UpdateScript.py'.format(
             self.guest_user, self.guest_password, self.vmware_type, self.vm, self.guest_script_path)
         os.system(convert_dos2unix)
-        run_script = 'vmrun -gu {0} -gp {1} -T {2} runProgramInGuest {3} "/usr/bin/python3" {4}/UpdateScript.py'.format(
+        run_script = 'vmrun -gu {0} -gp {1} -T {2} runProgramInGuest "{3}" "/usr/bin/python3" {4}/UpdateScript.py'.format(
             self.guest_user, self.guest_password, self.vmware_type, self.vm, self.guest_script_path)
         os.system(run_script)
         # end if/else statement here
@@ -110,7 +110,7 @@ class Vmware:
 
     def vm_create_clone(self, imageName):
         print("......Creating Clone of " + imageName)
-        clone_machine = r'vmrun -T {0} clone {1} {2}\{3}\{3}.vmx full -snapshot={3} -cloneName={3}'.format(
+        clone_machine = r'vmrun -T {0} clone "{1}" "{2}"\{3}\{3}.vmx full -snapshot={3} -cloneName={3}'.format(
             self.vmware_type, self.vm, self.my_settings.preserve_forensic_clone_directory, imageName)
         os.system(clone_machine)
 
@@ -130,7 +130,7 @@ class Vmware:
 
     def baseImageExists(self):
         baseImage = bytes(self.base_image, 'utf-8')
-        find_snapshot = r'vmrun -T {0} listSnapshots {1}'.format(self.vmware_type, self.vm)
+        find_snapshot = r'vmrun -T {0} listSnapshots "{1}"'.format(self.vmware_type, self.vm)
         result = subprocess.check_output(find_snapshot, shell=True)
         if result.find(baseImage) != -1:
             return True

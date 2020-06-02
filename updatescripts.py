@@ -7,10 +7,6 @@ from settings import Settings
 class Updatescripts:
     def __init__(self, filepath):
         self.my_settings = Settings()
-        self.my_git_directory = self.my_settings.my_git_directory
-        self.my_git_repos = self.my_settings.my_git_repos
-        self.external_git_directory = self.my_settings.external_git_directory
-        self.external_git_repos = self.my_settings.external_git_repos
         self.fullpath = filepath
 
     # still to write this
