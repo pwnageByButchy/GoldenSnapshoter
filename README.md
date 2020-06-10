@@ -39,7 +39,7 @@ This was design specifically to be a manual process as on some hosts you may not
 
 #### Things to know ####
 1. You need to change the settings and supply information including usernames and passwords - Be Mindful of This!
-2. Private Git Repos require authentication there is an example in the settings of how to add you repo with a username and password... if you do not it will no clone the repo and may cause errors
+2. Private Git Repos require authentication there is an example in the settings of how to add you repo with a username and password... if you do not it will not clone the repo and may cause errors
 3. dos2unix is required as VMWare seems to copy/convert the UpdateScript to have dos end of line characters
 4. ParrotOS was one of our test cases however it handles `sudo apt update -y && sudo apt dist-upgrade -y` where it does not honour the `-y` flag on ocassions. This is due to their different implementation of Aptitude
 5. Timing run this regularly, if it has been a while we suggest a manual restore to base image and update (especially with ParrotOS). Also only run it once a day usually this isn't an issue
