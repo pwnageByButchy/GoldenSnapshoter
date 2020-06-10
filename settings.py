@@ -15,10 +15,12 @@ class Settings:
         # Name of your base image
         self.base_image = r'baseImage'
 
-        # Linux GuestOS username
+        # Linux GuestOS root username
         self.linux_guestuser = r'root'
-        # Linux GuestOS password
+        # Linux GuestOS root password
         self.linux_guestpass = r'password'
+        # standard user username
+        self.linux_standard_user = r'butchy'
         # Linux path to where scripts go
         self.linux_scripts_path_in_guest = r'/root'
 
@@ -44,8 +46,9 @@ class Settings:
         # Third party Git Repo local folder location inside the guest
         self.external_git_directory = r'/home/butchy/ExternalGit'
         # List of My Git Repos to be cloned into my_git_directory
-        self.my_git_repos = {r'GoldenSnapshoter': r'https://github.com/pwnageByButchy/GoldenSnapshoter.git',
-                             r'UsefulShit': r'https://github.com/pwnageByButchy/UsefulShit.git'}
+        # for private repos you will need to include a username and password in the URL
+        # example git clone https://username:password@github.com/username/repository.git
+        self.my_git_repos = {r'GoldenSnapshoter': r'https://github.com/pwnageByButchy/GoldenSnapshoter.git'}
         # List of Third Party Git Repos to be cloned into external_git_directory
         self.external_git_repos = {r'USB-Rubber-Ducky': r'https://github.com/hak5darren/USB-Rubber-Ducky.git',
                                    r'Bash-Bunny-Payloads': r'https://github.com/hak5darren/bashbunny-payloads.git',
