@@ -41,9 +41,9 @@ class Git:
             file.write("    shutil.rmtree('{0}/{1}')\n".format(self.my_settings.external_git_directory, repo_name))
             file.write("    os.system('git clone {0} {1}/{2}')\n\n".format(
                 self.my_settings.external_git_repos[repo_name], self.my_settings.external_git_directory, repo_name))
-        file.write("os.system('chown -R {0}:{0} {1}\n')".format(self.my_settings.linux_standard_user,
+        file.write("os.system('chown -R {0}:{0} {1}')\n".format(self.my_settings.linux_standard_user,
                                                                 self.my_settings.my_git_directory))
-        file.write("os.system('chown -R {0}:{0} {1}\n')".format(self.my_settings.linux_standard_user,
+        file.write("os.system('chown -R {0}:{0} {1}')\n".format(self.my_settings.linux_standard_user,
                                                                 self.my_settings.external_git_directory))
         file.write("#### End Copying here ####\n\n")
         file.close()
